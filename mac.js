@@ -1,10 +1,10 @@
 var path = require('path')
 var fs = require('fs')
 
+var cptar = require('cptar')
 var objectAssign = require('object-assign')
 var plist = require('plist')
 var mv = require('mv')
-var ncp = require('ncp').ncp
 var series = require('run-series')
 var common = require('./common')
 var sign = require('electron-osx-sign')
@@ -165,7 +165,7 @@ module.exports = {
               // Ignore error if icon doesn't exist, in case it's only available for other OS
               cb(null)
             } else {
-              ncp(icon, path.join(contentsPath, 'Resources', 'atom.icns'), cb)
+              cptar(icon, path.join(contentsPath, 'Resources', 'atom.icns'), cb)
             }
           })
         })
@@ -177,7 +177,7 @@ module.exports = {
         if (!Array.isArray(extras)) extras = [extras]
         extras.forEach(function (val) {
           operations.push(function (cb) {
-            ncp(val, path.join(contentsPath, 'Resources', path.basename(val)), cb)
+            cptar(val, path.join(contentsPath, 'Resources', path.basename(val)), cb)
           })
         })
       }
